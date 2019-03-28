@@ -24,12 +24,20 @@ glimpse(climas)
 ## Temperatura
 
 ### Onde é mais quente?
-```{R}
-climas %>% 
-    #mutate(season = as.character(season)) %>% 
-    ggplot(aes(x = cidade, y = tmedia, color=cidade)) +
-    geom_jitter()
 
+
+```{R}
+#Fazer o plot do ponto de média e mediana
+
+sumarios = climas %>% 
+    #mutate(season = as.character(season)) %>% 
+    summarise(mediana = median(tmedia),
+              media = mean(tmedia))
+climas %>%
+    ggplot(aes(x = cidade, y = tmedia, color=cidade)) +
+    geom_jitter(alpha=.5)+
+    geom_point(x = sumarios$media, color = "darkorange") + 
+    geom_point(x = sumarios$mediana, color = "brown") 
 
 ```
 
@@ -40,8 +48,11 @@ climas %>%
 ```{R}
 climas %>% 
     #mutate(season = as.character(season)) %>% 
-    ggplot(aes(x = semana, y = tmax, color=cidade)) +
-    geom_line()
+    filter(cidade == "Campina Grande") %>% 
+    ggplot(aes(x = semana, y = tmax, color = tmax)) +
+    geom_line() +
+    geom_line(aes(x = semana, y = tmedia, color = tmedia))
+   
 
 
 ```
@@ -49,10 +60,33 @@ climas %>%
 
 ### Quais os meses mais quentes e mais frios? 
 
+```{R}
+
+climas %>%
+    ggplot(aes(x =mes  , y = tmedia, color = cidade)) +
+    geom_jitter(alpha=.5) +
+    scale_x_discrete()
+    
+
+
+
+```
+
 
 ### Qual foi o São João  mais frio de CG que está nos nossos dados?
 
+```{R}
+climas %>%
+    filter(mes == 6) %>%
+    filter(cidade == "Campina Grande") %>%
+    ggplot(aes(x = ano,  y = tmedia)) +
+    geom_line() +
+    geom_point(aes(x = ano,  y = tmedia, color="red"))
+    
+    
 
+
+```
 
 ## Chuva
 
