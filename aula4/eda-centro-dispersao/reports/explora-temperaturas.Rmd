@@ -36,7 +36,7 @@ sumarios = climas %>%
 climas %>%
     ggplot(aes(x = cidade, y = tmedia, color=cidade)) +
     geom_jitter(alpha=.5)+
-    geom_point(x = sumarios$media, color = "darkorange") + 
+    geom_point(aes(x = sumarios$media, color = "darkorange")) + 
     geom_point(x = sumarios$mediana, color = "brown") 
 
 ```
@@ -95,6 +95,23 @@ climas %>%
 Como é a distribuição do volume de chuvas por semana em JP e CG? A chuva varia mais ou menos que a temperatura? O formato da distribuição é igual? 
 
 ### No geral, onde chove mais?
+```{r}
+climas %>%
+    ggplot(aes(x = cidade, y = chuva, color=cidade)) +
+    geom_jitter(alpha=.5)
+    #boxplot(chuva~cidade, data=climas)
+    
+    
+
+```
+
 
 ### A distribuição é diferente em meses específicos? 
+
+```{r}
+climas %>%
+    ggplot(aes(x = mes, y = chuva, color=cidade)) +
+    geom_jitter(alpha=.5) 
+```
+
 
