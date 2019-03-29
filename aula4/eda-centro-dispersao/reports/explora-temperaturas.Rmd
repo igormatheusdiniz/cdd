@@ -27,16 +27,24 @@ glimpse(climas)
 
 
 ```{R}
-#Fazer o plot do ponto de média e mediana
-
 sumarios = climas %>%
     group_by(cidade) %>%
-    #mutate(season = as.character(season)) %>% 
     summarise(mediana = median(tmedia),
               media = mean(tmedia))
 climas %>%
     ggplot(aes(x = cidade, y = tmedia, color=cidade)) +
-    geom_jitter(alpha=.5) +
+    geom_boxplot(coef = 1000) +
+    geom_jitter(alpha=.1) +
+    geom_point(data=sumarios, aes(x= cidade, y=mediana), color="black")
+
+climas %>%
+    ggplot(aes(x=tmedia, fill=cidade))+
+    geom_density(alpha= .3)
+
+climas %>%
+    ggplot(aes(x = cidade, y = tmedia, color=cidade)) +
+    geom_boxplot(coef = 1000) +
+    geom_quasirandom(alpha=.1) +
     geom_point(data=sumarios, aes(x= cidade, y=mediana), color="black")
 
 ```
@@ -47,28 +55,10 @@ climas %>%
 
 ```{R}
 climas %>% 
-    #group_by(cidade, color= cidade) %>%
-    #mutate(season = as.character(season)) %>% 
-    filter(cidade == "Campina Grande") %>% 
-    ggplot(aes(x = semana, y = tmax, color = tmax)) +
-    geom_line() +
-    geom_line(aes(x = semana, y = tmedia, color = tmedia))
-   
-
-
-```
-
-```{R}
-climas %>% 
-    #group_by(cidade, color= cidade) %>%
-    #mutate(season = as.character(season)) %>% 
-    filter(cidade == "João Pessoa") %>% 
-    ggplot(aes(x = semana, y = tmax, color = tmax)) +
-    geom_line() +
-    geom_line(aes(x = semana, y = tmedia, color = tmedia))
-   
-
-
+    ggplot(aes(x = semana, y = tmax)) +
+    geom_line(color="darkblue") +
+    geom_line(aes(x = semana, y = tmedia),color="darkorange")+
+    facet_wrap(~cidade, ncol=1)
 ```
 
 
@@ -78,11 +68,15 @@ climas %>%
 
 climas %>%
     ggplot(aes(x =mes  , y = tmedia, color = cidade)) +
-    geom_jitter(alpha=.5)
-    #arrange(mes)
-    
+    geom_jitter(alpha=.5)+
+    scale_x_continuous(breaks = 1:12)
 
-
+climas %>%
+    ggplot(aes(x =mes  , y = tmedia, group=mes,color = cidade)) +
+    geom_jitter(alpha=.5, show.legend = FALSE)+
+    geom_boxplot(coef=1000, show.legend = FALSE)+
+    scale_x_continuous(breaks = 1:12)+
+    facet_wrap(~cidade)
 
 ```
 
@@ -90,12 +84,20 @@ climas %>%
 ### Qual foi o São João  mais frio de CG que está nos nossos dados?
 
 ```{R}
+sumarios = climas %>%
+    filter(cidade=="Campina Grande") %>%
+    summarise(anoFrio = min(tmedia))+
+    glimpse(sumarios)
+
+
 climas %>%
     filter(mes == 6) %>%
     filter(cidade == "Campina Grande") %>%
     ggplot(aes(x = ano,  y = tmedia)) +
-    geom_line() +
-    geom_point(aes(x = ano,  y = tmedia, color="red"))
+    geom_line()+
+    stat_summary(fun.y = "min", geom = "point", color = "red")
+    #geom_point(aes(x = ano,  y = tmedia, color="red"))
+    #geom_point(data=sumarios, aes(x = climas$ano, y=anoFrio), color="red")
     
     
 
@@ -108,6 +110,21 @@ climas %>%
 
 Como é a distribuição do volume de chuvas por semana em JP e CG? A chuva varia mais ou menos que a temperatura? O formato da distribuição é igual? 
 
+```{r}
+climas %>% 
+    ggplot(aes(x = semana, y = chuva, color = cidade)) +
+    geom_line() +
+    labs(x = "Ano", y = "Chuva") +
+    facet_grid(~ cidade)
+
+climas %>% 
+    ggplot(aes(x = chuva, color = cidade)) +
+    geom_density(fill="gray") +
+    facet_grid(~ cidade)
+```
+
+
+
 ### No geral, onde chove mais?
 ```{r}
 climas %>%
@@ -115,9 +132,13 @@ climas %>%
     geom_jitter(alpha=.5)
     #boxplot(chuva~cidade, data=climas)
     
-    
-
+climas %>% 
+    ggplot(aes(x = chuva, color = cidade)) +
+    geom_density(fill="gray") +
+    facet_grid(~ cidade)
 ```
+
+
 
 
 ### A distribuição é diferente em meses específicos? 
@@ -125,7 +146,10 @@ climas %>%
 ```{r}
 climas %>%
     ggplot(aes(x = mes, y = chuva, color=cidade)) +
-    geom_jitter(alpha=.5) 
+    geom_quasirandom(alpha=.3, show.legend = FALSE)+
+    stat_summary(fun.y = "median", geom = "line", color = "gray40") +
+    facet_wrap(~cidade)
+
 ```
 
 
