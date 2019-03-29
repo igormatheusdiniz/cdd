@@ -16,7 +16,7 @@ theme_set(theme_bw())
 
 ```{r read}
 climas = read_csv(here::here("data/clima_cg_jp-semanal.csv"), 
-                  col_types = "cTdddddd")
+                  col_types = "cTddddnd")
 
 glimpse(climas)
 ```
@@ -29,15 +29,15 @@ glimpse(climas)
 ```{R}
 #Fazer o plot do ponto de média e mediana
 
-sumarios = climas %>% 
+sumarios = climas %>%
+    group_by(cidade) %>%
     #mutate(season = as.character(season)) %>% 
     summarise(mediana = median(tmedia),
               media = mean(tmedia))
 climas %>%
     ggplot(aes(x = cidade, y = tmedia, color=cidade)) +
-    geom_jitter(alpha=.5)+
-    geom_point(aes(x = sumarios$media, color = "darkorange")) + 
-    geom_point(x = sumarios$mediana, color = "brown") 
+    geom_jitter(alpha=.5) +
+    geom_point(data=sumarios, aes(x= cidade, y=mediana), color="black")
 
 ```
 
@@ -47,8 +47,22 @@ climas %>%
 
 ```{R}
 climas %>% 
+    #group_by(cidade, color= cidade) %>%
     #mutate(season = as.character(season)) %>% 
     filter(cidade == "Campina Grande") %>% 
+    ggplot(aes(x = semana, y = tmax, color = tmax)) +
+    geom_line() +
+    geom_line(aes(x = semana, y = tmedia, color = tmedia))
+   
+
+
+```
+
+```{R}
+climas %>% 
+    #group_by(cidade, color= cidade) %>%
+    #mutate(season = as.character(season)) %>% 
+    filter(cidade == "João Pessoa") %>% 
     ggplot(aes(x = semana, y = tmax, color = tmax)) +
     geom_line() +
     geom_line(aes(x = semana, y = tmedia, color = tmedia))
@@ -64,8 +78,8 @@ climas %>%
 
 climas %>%
     ggplot(aes(x =mes  , y = tmedia, color = cidade)) +
-    geom_jitter(alpha=.5) +
-    scale_x_discrete()
+    geom_jitter(alpha=.5)
+    #arrange(mes)
     
 
 
