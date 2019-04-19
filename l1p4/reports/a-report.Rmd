@@ -1,0 +1,29 @@
+---
+title: "Analise da atividade dos parlamentares no Twitter no ano de 2019"
+author: "Igor Matheus Castor Diniz Pinheiro"
+theme: sandstone
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_float: yes
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+source(here::here("code/lib.R"))
+theme_set(theme_bw())
+```
+
+```{r read}
+atividade = read_projectdata()
+glimpse(atividade)
+```
+
+# Existe uma relação entre partido e número de seguidores?
+
+
+# O estado tem forte influência no nivel de engajamento do parlamentar?
