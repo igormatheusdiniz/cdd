@@ -44,7 +44,7 @@ atividade %>%
 
 Pelo gráfico tem-se uma impressão de que existe sim uma relação entre o número de conteúdo próprio produzido pelo parlamentar e o número de seguidores. Visualmente falando, pode-se concluir que quanto mais conteúdo próprio é produzido, maior será o número de seguidores que o parlamentar irá acumular. Entretanto ao analisarmos os coeficientes de correlação encontramos os seguintes resultados
 
-* Coef. de Pearson: Como o valor está entre 0-3, por convenção temos uma correlação desprezível para este
+* Coef. de Pearson: Como o valor está entre 0-0,3, por convenção temos uma correlação desprezível para este
 * Coef. Spearman: A correlação de Spearman avalia a relação monotônica entre duas variáveis contínuas ou ordinais e geralmente as variáveis tendem a mudar juntas mas não necessariamente a uma taxa constante. Para este caso temos um valor de correlação um pouco mais considerável que o coef. de pearson, entretanto, não bom o suficiente para expressar alguma resposta interessante.
 * Coef. Kendall: O coeficiente de concordância de Kendall pode variar de 0 a 1. Quanto maior o valor de Kendall, mais forte é a concordância. Para o caso em questão, também não temos um valor tao expressivo. 
 
@@ -68,10 +68,13 @@ atividade %>%
             kendall = cor(n_proprio, engaj_total_proprio, method = "kendall"))
 
 ```
+Semelhantemente a questão anterior pelo gráfico tem-se uma impressão de que existe sim uma relação entre o número de conteúdo próprio produzido pelo parlamentar e o e o engajamento total em conteúdo próprio. Visualmente falando, pode-se concluir que quanto mais conteúdo próprio é produzido, maior será o engajamento, maior será o núemro de reações no conteúdo próprio. O que é algo realmente esperado, quanto mais eu produzo existe a esperança de que mais engajamento seja gerado. Ao analisarmos os coeficientes de correlação encontramos os seguintes resultados
 
+* Coef. de Pearson: Como o valor está entre 0,3-0,5, por convenção temos uma correlação fraca para este coeficiente.
+* Coef. Spearman: A correlação de Spearman avalia a relação monotônica entre duas variáveis contínuas ou ordinais e geralmente as variáveis tendem a mudar juntas mas não necessariamente a uma taxa constante. Para este caso temos um valor de correlação bastante considerável, indicado que existe sim uma correlação.
+* Coef. Kendall: O coeficiente de concordância de Kendall pode variar de 0 a 1. Quanto maior o valor de Kendall, mais forte é a concordância. Para o caso em questão, temos um valor acima da metade do espectro de avaliação, o que fortalece a ideia de que existe uma correlação entre as variáveis. 
 
-
-
+Dessa forma, podemos concluir que o número de conteúdo próprio tem um certo impacto no número de engajamento total próprio.
 
 
 
