@@ -23,7 +23,66 @@ atividade = read_projectdata()
 glimpse(atividade)
 ```
 
-# Existe uma relação entre partido e número de seguidores?
+# Existe uma relação entre o numero de vonteúdo próprio e número de seguidores?
+```{r}
+atividade %>% 
+  na.omit(atividade)%>%
+  ggplot(aes(x=n_proprio, y=seguidores, color=seguidores))+
+  geom_point()+
+  scale_x_log10()+
+  scale_y_log10()
+
+atividade %>% 
+  na.omit(atividade)%>%
+  summarise(correlacao = cor(n_proprio, seguidores, method = "pearson"),
+            spearman = cor(n_proprio, seguidores, method = "spearman"), 
+            kendall = cor(n_proprio, seguidores, method = "kendall"))
 
 
-# O estado tem forte influência no nivel de engajamento do parlamentar?
+
+```
+
+Pelo gráfico tem-se uma impressão de que existe sim uma relação entre o número de conteúdo próprio produzido pelo parlamentar e o número de seguidores. Visualmente falando, pode-se concluir que quanto mais conteúdo próprio é produzido, maior será o número de seguidores que o parlamentar irá acumular. Entretanto ao analisarmos os coeficientes de correlação encontramos os seguintes resultados
+
+* Coef. de Pearson: Como o valor está entre 0-3, por convenção temos uma correlação desprezível para este
+* Coef. Spearman: A correlação de Spearman avalia a relação monotônica entre duas variáveis contínuas ou ordinais e geralmente as variáveis tendem a mudar juntas mas não necessariamente a uma taxa constante. Para este caso temos um valor de correlação um pouco mais considerável que o coef. de pearson, entretanto, não bom o suficiente para expressar alguma resposta interessante.
+* Coef. Kendall: O coeficiente de concordância de Kendall pode variar de 0 a 1. Quanto maior o valor de Kendall, mais forte é a concordância. Para o caso em questão, também não temos um valor tao expressivo. 
+
+Dessa forma, podemos concluir que o número de conteúdo próprio não tem tanto impacto no número de seguidores de um parlamentar.
+
+
+# O numero de conteúdo próprio tem forte influência no nivel de engajamento do parlamentar?
+
+```{r}
+atividade %>% 
+  na.omit(atividade)%>%
+  ggplot(aes(x=n_proprio, y=engaj_total_proprio, color=engaj_total_proprio))+
+  geom_point()+
+  scale_x_log10()+
+  scale_y_log10()
+
+atividade %>% 
+  na.omit(atividade)%>%
+  summarise(correlacao = cor(n_proprio, engaj_total_proprio, method = "pearson"),
+            spearman = cor(n_proprio, engaj_total_proprio, method = "spearman"), 
+            kendall = cor(n_proprio, engaj_total_proprio, method = "kendall"))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
