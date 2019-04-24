@@ -10,7 +10,6 @@ theme: sandstone
 library(tidyverse)
 library(here)
 library(viridis)
-source(here::here("code/lib.R"))
 theme_set(theme_bw())
 
 knitr::opts_chunk$set(tidy = FALSE,
@@ -42,9 +41,38 @@ Considerando essa variável, queremos examinar a relação entre ela e o quão h
 
 ## Examinando essa relação
 
+```{r}
+dados %>% 
+    ggplot(aes(x=PDI, y=comentaram_prop, size=Internet,  color=log10(usuarios)))+
+    geom_point(alpha = .6)
+
+```
+
+
 Faça uma visualização que usa os princípios de eficácia no projeto de visualizações para facilitar as comparações que você acha que são as mais importantes para entendermos esse contexto. 
 
 ## Outras formas de ver
+
+```{r}
+dados %>% 
+    ggplot(aes(x=PDI, y=comentaram_prop,size=usuarios,color = Internet))+
+    geom_point()
+
+```
+
+```{r}
+dados %>% 
+    ggplot(aes(x=log10(usuarios), y=comentaram_prop,size=PDI,color = Internet))+
+    geom_point(alpha = .6)
+
+```
+
+```{r}
+dados %>% 
+    ggplot(aes(x=PDI, y=comentaram_prop, size=usuarios,  color=Internet))+
+    geom_point(alpha = .6)
+
+```
 
 Em seguida, faça 5 visualizações que usem as mesmas variáveis e também pontos, mas que sejam **menos eficazes** que a que você escolheu acima. 
 
