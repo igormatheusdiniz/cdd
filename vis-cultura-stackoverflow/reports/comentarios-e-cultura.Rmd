@@ -74,6 +74,22 @@ dados %>%
 
 ```
 
+```{r}
+dados %>% 
+    ggplot(aes(x=log10(usuarios), y=PDI, size=comentaram_prop,  color=Internet))+
+    geom_point(alpha = .6)
+
+
+```
+
+```{r}
+dados %>% 
+    ggplot(aes(x=log10(usuarios), y=Internet, size=comentaram_prop,  color=PDI))+
+    geom_point(alpha = .6)
+
+```
+
+
 Em seguida, faça 5 visualizações que usem as mesmas variáveis e também pontos, mas que sejam **menos eficazes** que a que você escolheu acima. 
 
 ## Bônus
