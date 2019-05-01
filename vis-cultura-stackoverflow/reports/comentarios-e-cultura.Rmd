@@ -43,13 +43,13 @@ Considerando essa variável, queremos examinar a relação entre ela e o quão h
 
 ```{r}
 dados %>% 
-    ggplot(aes(x=PDI, y=comentaram_prop, size=Internet,  color=log10(usuarios)))+
-    geom_point(alpha = .6)
+    ggplot(aes(x=PDI, y=comentaram_prop, size=log10(usuarios),  color=Internet))+
+    geom_point(alpha = .6)+
+    facet_wrap(~site)
 
 ```
 
-
-Faça uma visualização que usa os princípios de eficácia no projeto de visualizações para facilitar as comparações que você acha que são as mais importantes para entendermos esse contexto. 
+Através desta visualização, que não julgo ser a melhor de todas devido a limitação gráfica, podemos perceber que o site StackOverflow possui um maior número de "bolinhas" claras caracterizando um maior número de usuários com internet, bem como um maior número de bolinha maiores caracterizando que os usuários no geral. De modo geral para ambos os casos podemos perceber que quanto menor o PDI maior será o numero de usuários com internet e maior será o número de usuarios. Outra ánalise que podemos extrair do gráfico é que quanto menor o PDI maior é a proporção de comentário. 
 
 ## Outras formas de ver
 
@@ -59,6 +59,9 @@ dados %>%
     geom_point()
 
 ```
+
+Esta visualização mostrou que quanto maior o número de pessoas com Internet maior será a proporção de comentarios e menor o número de PDI, mas não se enquadra numa boa visualização pois existem dados "escondidos" ou que podem estar sendo sobrepostos, por exemplo, "bolinhas" menores sendo sobrepostas por "bolinhas" maiores. Outro fator que dificulta a visualização é a não separação por dominios(Site). 
+
 
 ```{r}
 dados %>% 
@@ -74,6 +77,8 @@ dados %>%
 
 ```
 
+Esta visualização mostrou que quanto maior o número de pessoas com Internet maior será a proporção de comentarios e menor o número de PDI, mas não se enquadra numa boa visualização pois não há a separação por dominios(Site). 
+
 ```{r}
 dados %>% 
     ggplot(aes(x=log10(usuarios), y=PDI, size=comentaram_prop,  color=Internet))+
@@ -81,6 +86,8 @@ dados %>%
 
 
 ```
+
+Visualização um tanto quanto confusa, a escolha das variáveis para os eixos podem confundir bastante o entendimento de usuário inexperiente.
 
 ```{r}
 dados %>% 
@@ -96,3 +103,15 @@ Em seguida, faça 5 visualizações que usem as mesmas variáveis e também pont
 
 Inclua o continente dos países (`six_regions`) na visualização.
 
+```{r}
+dados %>% 
+    ggplot(aes(x=PDI, y=comentaram_prop, size=Internet,  color=log10(usuarios), shape=six_regions))+
+    geom_point(alpha = .6)
+
+dados %>% 
+    ggplot(aes(x=PDI, y=comentaram_prop, size=log10(usuarios),  color=Internet,shape=six_regions))+
+    geom_point(alpha = .6)+
+    facet_wrap(~site)
+```
+
+Associando a melhor visualização escolhida no primeiro gráfico com as regiões caracterizadas nas formas, podemos perceber claramente que a Europa central e Asia são as mais atuantes. Essa relação vale para os dois dominios.
